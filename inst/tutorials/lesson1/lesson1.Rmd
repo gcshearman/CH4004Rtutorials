@@ -1,5 +1,9 @@
 ---
 title: "Your First Lesson"
+tutorial:
+  id: "lesson1"
+  package: CH4004Rtutorials
+  description: "This is a test file"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
