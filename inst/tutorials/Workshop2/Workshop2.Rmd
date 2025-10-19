@@ -95,3 +95,6 @@ search()
 **What to look for:** When you run `search()`, you should see `package:dplyr` and `package:readr` in the list. If you see them, the packages loaded successfully! ✅
 
 **Note:** Again, just to reiterate, unlike installation (i.e. using `install.packages`), you need to load packages with `library()` *every* time you start a new R session!
+
+
+> **License:** This tutorial is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

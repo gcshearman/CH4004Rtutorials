@@ -1,16 +1,17 @@
 Package: CH4004Rtutorials
-Title: A set of simple tutorials on R for 1st year Pharmaceutical Science and Chemistry Undergraduates (Kingston University)
-Version: 1.0.0
+Title: Introducing R to Pharmaceutical Science and Chemistry students
+Version: 0.0.0.9000
 Authors@R: 
-    person("Gemma", "Shearman", , "g.shearman@kingston.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0365-5825")
-Description: A set of tutorials designed to introduce students to chemical and pharmaceutical data manipulation and visualisation.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Gemma", "Shearman", , "gemma.shearman@gmail.com", role = c("aut", "cre"))
+Description: A set of ten tutorials to introduce data manipulation, graphing and statistics to 1st year Chemistry and Pharmaceutical Science UG students at Kingston University
+License: CC-BY-4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: 
+    dplyr,
     gradethis (>= 0.2.14),
-    learnr
+    learnr,
+    readr
 Remotes: 
     rstudio/gradethis
