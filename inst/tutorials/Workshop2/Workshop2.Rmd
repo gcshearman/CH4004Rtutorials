@@ -11,7 +11,7 @@ tutorial_options(exercise.checker = gradethis::grade_learnr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Welcome to Workshop 2: Cleaning and Wrangling Your Chemistry Data
+## Welcome to Workshop 2: Cleaning and Wrangling Your Chemistry Data
 
 In this workshop, you will learn how to:
 
@@ -25,6 +25,15 @@ We will be working with two datasets:
 
 (2) The **Lipophilicity** dataset, which contains experimental logD values for small molecules, where the term *lipophilicity* represents a measure of how well a substance dissolves in fats, oils and lipids vs water!
 
+### Data Source Acknowledgement
+
+The ESOL and Lipophilicity datasets used in this workshop are from [MoleculeNet](https://moleculenet.org/),  
+a benchmarking platform for molecular machine learning datasets.  
+Please refer to Wu et al., *MoleculeNet: a benchmark for molecular machine learning*, Chemical Science, 2018, 9, 513-530 for details.
+
+We thank the authors and contributors for making these datasets publicly available.
+
+
 ## Step 1: Understanding R packages
 
 If you remember from last week, packages in R are like plug-ins or apps for R. They add extra tools and features that don't come built-in, so you can do more things easily, such as reading data files or cleaning your data.
@@ -33,23 +42,24 @@ In this case, as we'll be importing and manipulating datasets today, we'll use t
 
 ### Package installation
 
-**Before starting this tutorial**, you should have run the setup script `setup.R` which automatically installed all the required packages for today's workshop.
+**Before starting this tutorial**, you should have run the setup script `workshop2_run_script.R` which automatically installed all the required packages for today's workshop.
 
 If you haven't done this yet, please:
 
-1\. Download the `setup.R` file from Canvas, save and open in RStudio \
+1\. Download the `workshop2_run_script.R` file from Canvas, save and open in RStudio \
 2. Run the entire script (Ctrl+Shift+Enter or click "Run") \
-3. Wait for all packages to finish installing \
+3. Wait for all packages to finish installing... it might ask whether you want to download packages from source or update packages - in each case, say yes \
 4. Then return to this tutorial
 
 ### How package installation works
 
-When working on your own computer, you would install packages using the `install.packages()` command. For example:
+When working on your own computer and R, you would install packages using the `install.packages()` command. For example:
 
 ``` r
 install.packages("readr")
 install.packages("dplyr")
 ```
+However, for the sakes of this tutorial, these have already been installed automatically for you (look at the 'Packages' tab in the bottom right pane to spot them!).
 
 **Important notes about installing packages:** \
 Package names must be in quotation marks: `install.packages("dplyr")`. Without quotes, as shown in the example here, you'll get an error: `install.packages(dplyr)` \
@@ -57,44 +67,135 @@ You only need to install a package once on your computer (assuming that this is 
 
 ### Exercise: Loading packages
 
-After packages are installed, you need to **load** them to use their functions. This is done with the `library()` function. Slightly differently from `install.packages`, you don't have to have inverted commas around the name though (it doesn't matter whether you have them or not).
+After packages are installed, you need to **load** them to use their functions. This is done with the `library()` function. Slightly differently from `install.packages`, you don't have to have inverted commas around the name though (it doesn't matter whether you have them or not). For example, if you wanted to load the 'beepr' package (having installed it first!), you'd type:
+
+```r
+library(bleepr)
+```
 
 Think of the difference between using `install.packages` and `library` like downloading an app from an app Store vs opening an app. You only need to download an app once on your device (or in your R environment). However, even if the app is installed, you can’t use it until you open it. And... every time you restart your computer or your phone (or R session), you'll need to open the app again.
 
 Try loading both `readr` and `dplyr` in the box below:
 
-```{r load-packages-exercise, exercise=TRUE}
-# Load the readr package
+```{r load-packages-exercise, exercise=TRUE, exercise.eval=TRUE}
 
 
-# Load the dplyr package
-
-
-# Run this line to verify packages loaded successfully:
-search()
 ```
 
 ```{r load-packages-exercise-hint-1}
 # Use the library() function to load packages
+# Package names do NOT need quotes in library. For the package readr this would look like:
+library(readr)
+# Now you do the same for dplyr!
+```
+
+```{r load-packages-exercise-hint-2}
+# Use the library() function to load packages
 # Package names do NOT need quotes in library()
 library(readr)
 library(dplyr)
-
-# Run this line to verify packages loaded successfully:
-search()
 ```
 
 ```{r load-packages-exercise-solution}
 library(readr)
 library(dplyr)
-
-# The search() function shows all loaded packages
-search()
 ```
 
-**What to look for:** When you run `search()`, you should see `package:dplyr` and `package:readr` in the list. If you see them, the packages loaded successfully! ✅
+```{r load-packages-exercise-check}
+gradethis::grade_this_code()
+```
+
+```{r quiz-install-load}
+quiz(
+  question("Which function is used to download a package?",
+           answer("library()", correct = FALSE),
+           answer("install.packages()", correct = TRUE),
+           answer("use_package()", correct = FALSE),
+           allow_retry = TRUE
+  ),
+  question("When do you need to use library()?",
+           answer("Every time you open a new R session", correct = TRUE),
+           answer("Only once per computer", correct = FALSE),
+           answer("Only if the package was installed with quotes", correct = FALSE),
+           allow_retry = TRUE
+  )
+)
+```
 
 **Note:** Again, just to reiterate, unlike installation (i.e. using `install.packages`), you need to load packages with `library()` *every* time you start a new R session!
+
+## Step 2: Why Cleaning Your Data Matters in Chemistry
+
+In pharmaceutical and chemical research, your data is only as good as its **quality**.
+
+Whether you're working with:
+
+- *Experimental data* (e.g. solubility measurements from the lab), or  
+- *Literature-mined data* (e.g. scraped or compiled from journal articles or public databases),
+
+…there are often **errors, inconsistencies, or missing values** that need fixing before any meaningful analysis.
+
+### Common data problems in chemistry:
+
+- **Missing or incomplete values** (e.g. no logS reported for some compounds)  
+- **Units or scales that don’t match** (e.g. logP vs. logD, or µg/mL vs. mol/L)  
+- **Inconsistent naming** of chemical compounds  
+- **Duplicate entries** in literature-mined datasets  
+- **Implausible values** (e.g. negative molecular weights!)
+
+> **Why it matters:**  
+> If we skip the cleaning step, we risk drawing wrong conclusions — or feeding errors into models or visualisations. It’s like trying to bake a cake with the wrong ingredients.
+
+---
+
+## Step 3: Importing the ESOL Dataset
+
+Now let's load a sample dataset: **ESOL**, a solubility dataset containing chemical compounds with their predicted aqueous solubility (`logS`), molecular weight (`MolWt`), and other properties.
+
+> We’ve introduced a few intentional issues to simulate what real chemical datasets often look like!
+
+You will need to download the file `esol_messy.csv` from Canvas and save on your drive somewhere... *take note of the file path of where you saved it to*!!
+
+---
+
+### Exercise: Import the ESOL dataset
+
+You’re going to import a CSV file into R using `read_csv()` from the `readr` package.
+
+> **Important reminder:**  
+When you use `read_csv()`, it **reads the data** — but it doesn't automatically store it anywhere.  
+You need to **assign** the result to a data frame (just like we did last week) using the `<-` operator.
+
+or this exercise, please assign your data to an object called `esol_data`, like this:
+
+```r
+esol_data <- read_csv("esol_messy.csv")
+```
+Remember, you will need to add your path in front of the file name. R likes forward slashes e.g. 'C:/CH4004' so if this was your path, the whole call would be:
+
+```r
+esol_data <- read_csv("C:/CH4004/esol_messy.csv")
+```
+Okay... your go! Please have a go at importing your data:
+
+```{r import-esol-exercise, exercise=TRUE, exercise.eval=TRUE}
+# Import the dataset using read_csv("your_file_path_here")
+
+```
+
+```{r import-esol-exercise-check}
+gradethis::grade_this({
+  if (!exists("esol_data")) {
+    fail("It looks like you haven't assigned your data to `esol_data`. Please name your object exactly that so we can check it!")
+  } else if (!is.data.frame(esol_data)) {
+    fail("`esol_data` should be a data frame. Did you use `read_csv()`?")
+  } else if (!all(c("compound", "MolWt", "logS") %in% names(esol_data))) {
+    fail("The dataset doesn't seem to have the expected columns. Are you sure it's the ESOL data?")
+  } else {
+    pass("Great job! You've successfully imported the ESOL dataset.")
+  }
+})
+```
 
 
 > **License:** This tutorial is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

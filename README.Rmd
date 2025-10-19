@@ -28,3 +28,12 @@ You can install the development version of CH4004Rtutorials from [GitHub](https:
 # install.packages("pak")
 pak::pak("gcshearman/CH4004Rtutorials")
 ```
+
+## Acknowledgements
+
+The ESOL and Lipophilicity datasets used in this repository come from [MoleculeNet](https://moleculenet.org/).
+
+Reference: Wu, Z., Ramsundar, B., Feinberg, E.N. et al. MoleculeNet: a benchmark for molecular machine learning. Chem Sci 9, 513–530 (2018). https://doi.org/10.1039/C7SC02664A
+
+Thank you to the MoleculeNet team for providing these valuable datasets.
+
