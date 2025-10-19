@@ -1,0 +1,97 @@
+---
+title: "Workshop 2: Data in a Lab Coat: Cleaning and Wrangling your Chemistry Data"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Welcome to Workshop 2: Cleaning and Wrangling Your Chemistry Data
+
+In this workshop, you will learn how to:
+
+-   Load a chemistry dataset into R
+-   Inspect the data to identify common issues
+-   Prepare for cleaning and wrangling tasks
+
+We will be working with two datasets:
+
+(1) The **ESOL dataset**, which contains aqueous solubility data for chemical compounds. This dataset has some intentional data issues for you to spot and fix.
+
+(2) The **Lipophilicity** dataset, which contains experimental logD values for small molecules, where the term *lipophilicity* represents a measure of how well a substance dissolves in fats, oils and lipids vs water!
+
+## Step 1: Understanding R packages
+
+If you remember from last week, packages in R are like plug-ins or apps for R. They add extra tools and features that don't come built-in, so you can do more things easily, such as reading data files or cleaning your data.
+
+In this case, as we'll be importing and manipulating datasets today, we'll use the `readr` package to import .csv files and `dplyr` for data manipulation.
+
+### Package installation
+
+**Before starting this tutorial**, you should have run the setup script `setup.R` which automatically installed all the required packages for today's workshop.
+
+If you haven't done this yet, please:
+
+1\. Download the `setup.R` file from Canvas, save and open in RStudio \
+2. Run the entire script (Ctrl+Shift+Enter or click "Run") \
+3. Wait for all packages to finish installing \
+4. Then return to this tutorial
+
+### How package installation works
+
+When working on your own computer, you would install packages using the `install.packages()` command. For example:
+
+``` r
+install.packages("readr")
+install.packages("dplyr")
+```
+
+**Important notes about installing packages:** \
+Package names must be in quotation marks: `install.packages("dplyr")`. Without quotes, as shown in the example here, you'll get an error: `install.packages(dplyr)` \
+You only need to install a package once on your computer (assuming that this is not using the KU environment, which wipes this!). The setup script already checked for you and only installed packages you didn't already have.
+
+### Exercise: Loading packages
+
+After packages are installed, you need to **load** them to use their functions. This is done with the `library()` function. Slightly differently from `install.packages`, you don't have to have inverted commas around the name though (it doesn't matter whether you have them or not).
+
+Think of the difference between using `install.packages` and `library` like downloading an app from an app Store vs opening an app. You only need to download an app once on your device (or in your R environment). However, even if the app is installed, you can’t use it until you open it. And... every time you restart your computer or your phone (or R session), you'll need to open the app again.
+
+Try loading both `readr` and `dplyr` in the box below:
+
+```{r load-packages-exercise, exercise=TRUE}
+# Load the readr package
+
+
+# Load the dplyr package
+
+
+# Run this line to verify packages loaded successfully:
+search()
+```
+
+```{r load-packages-exercise-hint-1}
+# Use the library() function to load packages
+# Package names do NOT need quotes in library()
+library(readr)
+library(dplyr)
+
+# Run this line to verify packages loaded successfully:
+search()
+```
+
+```{r load-packages-exercise-solution}
+library(readr)
+library(dplyr)
+
+# The search() function shows all loaded packages
+search()
+```
+
+**What to look for:** When you run `search()`, you should see `package:dplyr` and `package:readr` in the list. If you see them, the packages loaded successfully! ✅
+
+**Note:** Again, just to reiterate, unlike installation (i.e. using `install.packages`), you need to load packages with `library()` *every* time you start a new R session!

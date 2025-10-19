@@ -1,0 +1,31 @@
+---
+title: "Your First Lesson"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(gradethis)
+tutorial_options(exercise.checker = gradethis::grade_learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Test Exercise
+Change this to 2 + 2
+```{r my-exercise, exercise=TRUE, exercise.eval=TRUE}
+1+1
+```
+
+```{r my-exercise-hint}
+2+2
+```
+
+```{r my-exercise-solution}
+2+2
+```
+
+```{r my-exercise-check}
+gradethis::grade_this_code()
+```
+
